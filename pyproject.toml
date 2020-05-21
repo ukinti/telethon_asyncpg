@@ -1,0 +1,40 @@
+[tool.poetry]
+name = "telethon_asyncpg"
+version = "0.1.0"
+description = "Asyncpg powered session for pgsql databases"
+authors = ["mpa <mpa@snejugal.ru>"]
+license = "MIT"
+readme = "README.rst"
+repository = "https://github.com/ukinti/telethon_asyncpg"
+keywords = [
+	"telegram",
+	"telethon",
+	"mtproto",
+	"asyncio",
+	"asyncpg",
+]
+classifiers = [
+  "Framework :: AsyncIO",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Topic :: Software Development :: Libraries :: Application Frameworks",
+]
+packages =  [
+    {include = "telethon_asyncpg"}
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+asyncpg = "^0.20.1"
+Telethon = "^1.13.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.4.2"
+pytest-cov = "^2.8.1"
+pytest-asyncio = "^0.12.0"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
