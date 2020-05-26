@@ -2,7 +2,7 @@
 schema for asyncpg sessions is "asyncpg_telethon"
 """
 
-from typing import List, Optional, Dict, Any, Union, Callable
+from typing import List, Optional, Dict, Any, Union, Callable, Tuple
 import asyncio
 import uuid
 from abc import ABC
@@ -125,7 +125,7 @@ class AsyncpgSession(BaseAsyncSession, ABC):
         super().__init__()
         self._session_id = session_id_factory()
         self.save_entities = save_entities
-        self._dsn = asyncpg_conf
+        self._conf = asyncpg_conf if isinstance(asyncpg_conf, dict) else {"dsn": asyncpg_conf}
         self._pool: Optional[asyncpg.pool.Pool] = None
         self._lock = asyncio.Lock()
         self._conn: Optional[asyncpg.Connection] = None
@@ -152,13 +152,13 @@ class AsyncpgSession(BaseAsyncSession, ABC):
         self._pool = asyncpg_pool
         return self
 
-    async def start(self, settings: dict):
+    async def start(self, settings: Dict[Callable[..., Any], Tuple[Tuple[Any, ...], Dict[str, Any]]]):
         if self.started:
             return
 
         if not isinstance(self._pool, asyncpg.pool.Pool):
             # no more than one pool should be opened in one instance
-            self._pool = await asyncpg.create_pool(**self._dsn)
+            self._pool = await asyncpg.create_pool(**self._conf)
 
         async with self._pool.acquire() as conn:  # type: asyncpg.Connection
             if (await check_tables(conn)) is False:
