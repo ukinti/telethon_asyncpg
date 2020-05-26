@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "telethon_asyncpg"
-version = "0.1.1"
+version = "0.2.0"
 description = "Asyncpg powered session for pgsql databases"
 authors = ["mpa <mpa@snejugal.ru>"]
 license = "MIT"
